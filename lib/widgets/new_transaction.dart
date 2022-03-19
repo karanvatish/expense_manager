@@ -1,20 +1,31 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
   NewTransaction({Key? key, required this.addNewTransaction}) : super(key: key);
 
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
+
   final amountController = TextEditingController();
 
   void submitData() {
-    final titleInput = titleController.text;
-    final amountInput = amountController.text;
+    final enteredInput = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
 
-    if (titleInput.isNotEmpty && amountInput.isNotEmpty) {
-      addNewTransaction(titleInput, double.parse(amountInput));
+    if (enteredInput.isEmpty || enteredAmount < 0) {
+      return;
     }
+    widget.addNewTransaction(enteredInput, enteredAmount);
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -26,16 +37,16 @@ class NewTransaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              style: const TextStyle(fontSize: 20),
+              decoration: InputDecoration(labelText: 'Title'),
+              style: TextStyle(fontSize: 20),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
-              decoration: const InputDecoration(labelText: 'Amount'),
-              style: const TextStyle(fontSize: 20),
+              decoration: InputDecoration(labelText: 'Amount'),
+              style: TextStyle(fontSize: 20),
               controller: amountController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
             TextButton(

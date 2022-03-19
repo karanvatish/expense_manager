@@ -3,7 +3,7 @@
 import 'package:expense_manager/widgets/new_transaction.dart';
 import 'package:expense_manager/widgets/transaction_list.dart';
 
-import './widgets/charts.dart';
+import 'widgets/chart.dart';
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +14,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expense Manager',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
+          primarySwatch: Colors.green,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: const TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          )),
       home: MyHomePage(),
     );
   }
@@ -32,14 +45,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', amount: 69.99, date: DateTime.now(), title: 'New Shoes'),
-    Transaction(
-        id: 't2',
-        amount: 16.53,
-        date: DateTime.now(),
-        title: 'Weekly Grocceries')
+    // Transaction(
+    //     id: 't1', amount: 69.99, date: DateTime.now(), title: 'New Shoes'),
+    // Transaction(
+    //     id: 't2',
+    //     amount: 16.53,
+    //     date: DateTime.now(),
+    //     title: 'Weekly Grocceries')
   ];
+
+  List<Transaction> get recentTranacrtions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmt) {
     final newTx = Transaction(
@@ -57,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addNewTransactionModel(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
-      builder: (bctx) {
+      builder: (_) {
         return NewTransaction(addNewTransaction: _addNewTransaction);
       },
     );
@@ -67,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Flutter App"),
+        title: const Text("Personal Expense Manager"),
         actions: [
           IconButton(
               onPressed: () => _addNewTransactionModel(context),
@@ -75,12 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Charts(),
-              TransactionList(transactions: _userTransactions)
-            ]),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Charts(transactions: recentTranacrtions),
+          TransactionList(transactions: _userTransactions),
+        ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
