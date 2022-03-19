@@ -49,7 +49,7 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
-            TextButton(
+            ElevatedButton(
               onPressed: submitData,
               child: const Text(
                 'Add Transaction',

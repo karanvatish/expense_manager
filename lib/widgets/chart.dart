@@ -23,7 +23,7 @@ class Charts extends StatelessWidget {
       }
 
       return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
-    });
+    }).reversed.toList();
   }
 
   double get maxSpending {
@@ -36,7 +36,7 @@ class Charts extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(20),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: groupedTransactionValues.map((data) {
@@ -51,7 +51,7 @@ class Charts extends StatelessWidget {
               );
             }).toList()),
       ),
-      elevation: 8,
+      elevation: 6,
     );
   }
 }
