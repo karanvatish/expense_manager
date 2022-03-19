@@ -24,6 +24,11 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
+                bodyText1: const TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
               ),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
@@ -44,15 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 't1', amount: 69.99, date: DateTime.now(), title: 'New Shoes'),
-    // Transaction(
-    //     id: 't2',
-    //     amount: 16.53,
-    //     date: DateTime.now(),
-    //     title: 'Weekly Grocceries')
-  ];
+  final List<Transaction> _userTransactions = [];
 
   List<Transaction> get recentTranacrtions {
     return _userTransactions.where((tx) {
@@ -60,11 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmt) {
+  void _addNewTransaction(String txTitle, double txAmt, DateTime selectedDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       amount: txAmt,
-      date: DateTime.now(),
+      date: selectedDate,
       title: txTitle,
     );
 
