@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:expense_manager/widgets/new_transaction.dart';
 import 'package:expense_manager/widgets/transaction_list.dart';
 
@@ -87,23 +86,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appBar = AppBar(
+      title: const Text("Personal Expense Manager"),
+      actions: [
+        IconButton(
+            onPressed: () => _addNewTransactionModel(context),
+            icon: const Icon(Icons.add))
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Personal Expense Manager"),
-        actions: [
-          IconButton(
-              onPressed: () => _addNewTransactionModel(context),
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Charts(transactions: recentTranacrtions),
-            TransactionList(
-                transactions: _userTransactions,
-                deleteTransaction: _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top -
+                      230) *
+                  .9,
+              child: TransactionList(
+                  transactions: _userTransactions,
+                  deleteTransaction: _deleteTransaction),
+            ),
           ],
         ),
       ),
