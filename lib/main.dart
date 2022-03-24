@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:expense_manager/widgets/new_transaction.dart';
 import 'package:expense_manager/widgets/transaction_list.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +19,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -115,8 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
           transactions: _userTransactions,
           deleteTransaction: _deleteTransaction),
     );
-    var isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    var isLandscape = mediaQueryData.orientation == Orientation.landscape;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
